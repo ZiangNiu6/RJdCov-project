@@ -1,1 +1,55 @@
-# RJdCov-project
+
+# Distribution-Free Joint Independence Testing and Robust Independent Component Analysis Using Optimal Transport
+
+This repository reproduces the results reported in arXiv version 2 the
+following paper:
+
+Z. Niu, B. Bhattacharya. “Distribution-Free Joint Independence Testing
+and Robust Independent Component Analysis Using Optimal Transport.”
+([arXiv](https://arxiv.org/pdf/2211.15639))
+
+# Get started
+
+First, clone the `RJdCov-project` repository onto your machine.
+
+    git clone git@github.com:ZiangNiu6/RJdCov-project.git
+
+Then enter the `RJdCov-project.Rproj`. One needs to first restore the
+necessary R packages using the following R code.
+
+    library(renv)
+    renv::restore()
+
+# Reproduce the results and figures for simulation and real data analysis
+
+The following commands require to be executed in terminal; or you can
+use `source()` to execute individual R script. The corresponding figure
+index is indicated in the comment lines of the code.
+
+## Run the simulation for comparing different tests and create figures
+
+One can use the following command to reproduce the simulation results
+for Type-I error and power comparison of different tests.
+
+    Rscript run_testing_simulation.R
+
+## Run the ICA simulation and create figures
+
+One can use the following command to reproduce the ICA simulation
+results.
+
+    Rscript run_ICA.R
+
+## Run the dependence set recovery simulation and create figures
+
+One can use the following command to reproduce the simulation results
+for dependence set recovery.
+
+    Rscript run_dependence_recovery.R
+
+## Run the real data analysis and create figures
+
+One can use the following command to reproduce the real data analysis
+results.
+
+    Rscript run_real_data.R

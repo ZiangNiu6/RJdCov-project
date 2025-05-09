@@ -4,10 +4,9 @@ dir.create("results")
 # generate reference data
 set.seed(1)
 n_list <- seq(40, 200, by = 40)
-source("Test_function.R")
 
 # make a new directory called reference
-results_dir <- "results/reference"
+results_dir <- "dependence_recovery/results/reference"
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
   cat("Directory created:", results_dir, "\n")

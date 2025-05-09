@@ -38,8 +38,8 @@ summarized_results <- data_to_plot |> dplyr::group_by(grid_id, method) |>
   as.data.frame() |> 
   round(3)
 
-summarized_results[, c("mean_result_proposed", "sd_result_proposed", 
-                       "mean_result_MT", "sd_result_MT")]
+print(summarized_results[, c("mean_result_proposed", "sd_result_proposed", 
+                             "mean_result_MT", "sd_result_MT")])
   
 
 ## plot code

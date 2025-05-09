@@ -169,12 +169,12 @@ boot_hodcov <- function(X, B){
 
 # test with hodcov
 p.value_d_JZR <- boot_hodcov(X_tlist, B)
-round(p.value_d_JZR, 3)
+print(sprintf("JZR with d: %.3f", round(p.value_d_JZR, 3)))
 
 # test with jdcov
 JZR.test <- jdcov.test(X_tlist, stat.type = "V", alpha = 0.05, B = 500)
 p.value_jd_JZR <- JZR.test$p.value
-round(p.value_jd_JZR, 3)
+print(sprintf("JZR with jd: %.3f", round(p.value_jd_JZR, 3)))
 
 ## contradiction of result
 
@@ -182,13 +182,13 @@ round(p.value_jd_JZR, 3)
 empirical <- gensamdistrhodcov(n, dim_list = c(ncol(X1), ncol(X2), ncol(X3)), niter=2000)
 rdstat <- computestatisticrdcov(X_t, dim_list = c(ncol(X1), ncol(X2), ncol(X3)))
 p.value_rd_JZR <- length(which(empirical > rdstat))/length(empirical)
-round(p.value_rd_JZR, 3)
+print(sprintf("JZR with rd: %.3f", round(p.value_rd_JZR, 3)))
 
 # test with rjdcov
 empirical <- gensamdistrjdcov(n, dim_list = c(ncol(X1), ncol(X2), ncol(X3)), niter=2000)
 rjdstat <- computestatisticjdcov(X_t, dim_list = c(ncol(X1), ncol(X2), ncol(X3)))
 p.value_rjd_JZR <- length(which(empirical > rjdstat))/length(empirical)
-round(p.value_rjd_JZR, 3)
+print(sprintf("JZR with rjd: %.3f", round(p.value_rjd_JZR, 3)))
 
 ############################### JZF ############################################
 set.seed(1)
@@ -217,13 +217,13 @@ round(p.value_jd_JZF, 3)
 empirical <- gensamdistrhodcov(n, dim_list = c(ncol(X1), ncol(X2), ncol(X3)), niter=2000)
 rdstat <- computestatisticrdcov(X_t, dim_list = c(ncol(X1), ncol(X2), ncol(X3)))
 p.value_rd_JZF <- length(which(empirical > rdstat))/length(empirical)
-round(p.value_rd_JZF, 3)
+print(sprintf("JZF with rd: %.3f", round(p.value_rd_JZF, 3)))
 
 # test with rjdcov
 empirical <- gensamdistrjdcov(n, dim_list = c(ncol(X1), ncol(X2), ncol(X3)), niter=2000)
 rjdstat <- computestatisticjdcov(X_t, dim_list = c(ncol(X1), ncol(X2), ncol(X3)))
 p.value_rjd_JZF <- length(which(empirical > rjdstat))/length(empirical)
-round(p.value_rjd_JZF, 3)
+print(sprintf("JZF with rjd: %.3f", round(p.value_rjd_JZF, 3)))
 
 ################################# JZM ##########################################
 set.seed(1)
@@ -251,13 +251,13 @@ round(p.value_jd_JZM, 3)
 empirical <- gensamdistrhodcov(n, dim_list = c(ncol(X1), ncol(X2), ncol(X3)), niter=2000)
 rdstat <- computestatisticrdcov(X_t, dim_list = c(ncol(X1), ncol(X2), ncol(X3)))
 p.value_rd_JZM <- length(which(empirical > rdstat))/length(empirical)
-round(p.value_rd_JZM, 3)
+print(sprintf("JZM with rd: %.3f", round(p.value_rd_JZM, 3)))
 
 # test with rjdcov
 empirical <- gensamdistrjdcov(n, dim_list = c(ncol(X1), ncol(X2), ncol(X3)), niter=2000)
 rjdstat <- computestatisticjdcov(X_t, dim_list = c(ncol(X1), ncol(X2), ncol(X3)))
 p.value_rjd_JZM <- length(which(empirical > rjdstat))/length(empirical)
-round(p.value_rjd_JZM, 3)
+print(sprintf("JZM with rjd: %.3f", round(p.value_rjd_JZM, 3)))
 
 ######################### plot the graph #######################################
 fn <- 2000
@@ -322,7 +322,6 @@ pdf(file = "real-data/dcov_finance.pdf",   # The directory you want to save the 
     height = 0.45*TEXTHEIGHT)
 plot(clean.graph(res_jdcov$graph, simplify.pairs = FALSE))
 dev.off()
-
 
 ############################# Figure for rjdcov ################################
 X <- matrix(rnorm(fn*6), nrow = fn, ncol = 6)
