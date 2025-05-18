@@ -34,9 +34,9 @@ pdf(file = sprintf("%s/Gaussian_banded_varying_alpha.pdf", figure_dir),   # The 
 plot(alpha_list, GB_rd_power[,2], type = "o", pch = 19, col = "red",
      main="Gaussian banded", ylab="", xlab = "",ylim = c(0,1), yaxt="n",xaxt="n",
      log = "x")
-lines(alpha_list, GB_jd_power[,2], type = "o", pch = 19, col = "blue", log = "x")
-lines(alpha_list, GB_mat_power[,2], type = "o", pch = 19, col = "purple", log = "x")
-lines(alpha_list, GB_hsic_power[,2], type = "o", pch = 19, col = "orange", log = "x")
+lines(alpha_list, GB_jd_power[,2], type = "o", pch = 19, col = "blue")
+lines(alpha_list, GB_mat_power[,2], type = "o", pch = 19, col = "purple")
+lines(alpha_list, GB_hsic_power[,2], type = "o", pch = 19, col = "orange")
 legend("bottomright", legend=c("Proposed", "JdCov", "MT", "dHSIC"),
        col=c("red", "blue", "purple", "orange"), lty = 1, cex=0.7)
 axis(side = 2, at=c(seq(0, 1, 0.2)),cex.axis=0.7, mgp=c(1,0.6,0))
@@ -62,9 +62,9 @@ pdf(file = sprintf("%s/Gaussian_topeliz_varying_alpha.pdf", figure_dir),   # The
 plot(alpha_list, GT_rd_power[,3], type = "o", pch = 19, col = "red",
      main="Gaussian Toeplitz", ylab="", xlab = "",ylim = c(0,1), yaxt="n",xaxt="n",
      log = "x")
-lines(alpha_list, GT_jd_power[,3], type = "o", pch = 19, col = "blue", log = "x")
-lines(alpha_list, GT_mat_power[,3], type = "o", pch = 19, col = "purple", log = "x")
-lines(alpha_list, GT_hsic_power[,3], type = "o", pch = 19, col = "orange", log = "x")
+lines(alpha_list, GT_jd_power[,3], type = "o", pch = 19, col = "blue")
+lines(alpha_list, GT_mat_power[,3], type = "o", pch = 19, col = "purple")
+lines(alpha_list, GT_hsic_power[,3], type = "o", pch = 19, col = "orange")
 legend("bottomright", legend=c("Proposed", "JdCov", "MT", "dHSIC"),
        col=c("red", "blue", "purple", "orange"), lty = 1, cex=0.7)
 axis(side = 2, at=c(seq(0, 1, 0.2)),cex.axis=0.7, mgp=c(1,0.6,0))
@@ -91,9 +91,9 @@ pdf(file = sprintf("%s/Cauchy_varying_alpha.pdf", figure_dir),   # The directory
 plot(alpha_list, H_rd_power[,4], type = "o", pch = 19, col = "red",
      main="Cauchy", ylab="", xlab = "",ylim = c(0,1), yaxt="n",xaxt="n",
      log = "x")
-lines(alpha_list, H_jd_power[,4], type = "o", pch = 19, col = "blue", log = "x")
-lines(alpha_list, H_mat_power[,4], type = "o", pch = 19, col = "purple", log = "x")
-lines(alpha_list, H_hsic_power[,4], type = "o", pch = 19, col = "orange", log = "x")
+lines(alpha_list, H_jd_power[,4], type = "o", pch = 19, col = "blue")
+lines(alpha_list, H_mat_power[,4], type = "o", pch = 19, col = "purple")
+lines(alpha_list, H_hsic_power[,4], type = "o", pch = 19, col = "orange")
 legend("topleft", legend=c("Proposed", "JdCov", "MT", "dHSIC"),
        col=c("red", "blue", "purple", "orange"), lty = 1, cex=0.7)
 axis(side = 2, at=c(seq(0, 1, 0.2)),cex.axis=0.7, mgp=c(1,0.6,0))
@@ -121,9 +121,9 @@ pdf(file = sprintf("%s/Sin_dependence_varying_alpha.pdf", figure_dir),   # The d
 plot(alpha_list, S_rd_power[,3], type = "o", pch = 19, col = "red",
      main="Sine dependence", ylab="", xlab = "",ylim = c(0,1), yaxt="n",xaxt="n",
      log = "x")
-lines(alpha_list, S_jd_power[,3], type = "o", pch = 19, col = "blue", log = "x")
-lines(alpha_list, S_mat_power[,3], type = "o", pch = 19, col = "purple", log = "x")
-lines(alpha_list, S_hsic_power[,3], type = "o", pch = 19, col = "orange", log = "x")
+lines(alpha_list, S_jd_power[,3], type = "o", pch = 19, col = "blue")
+lines(alpha_list, S_mat_power[,3], type = "o", pch = 19, col = "purple")
+lines(alpha_list, S_hsic_power[,3], type = "o", pch = 19, col = "orange")
 legend("topleft", legend=c("Proposed", "JdCov", "MT", "dHSIC"),
        col=c("red", "blue", "purple", "orange"), lty = 1, cex=0.7)
 axis(side = 2, at=c(seq(0, 1, 0.2)),cex.axis=0.7, mgp=c(1,0.6,0))
