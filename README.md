@@ -1,20 +1,12 @@
 
 # Distribution-Free Joint Independence Testing and Robust Independent Component Analysis Using Optimal Transport
 
-This repository reproduces the results reported in arXiv version 2 the
-following paper:
-
-Z. Niu, B. Bhattacharya. “Distribution-Free Joint Independence Testing
-and Robust Independent Component Analysis Using Optimal Transport.”
-([arXiv](https://arxiv.org/pdf/2211.15639))
+This repository reproduces the results reported in the paper.
 
 # Get started
 
-First, clone the `RJdCov-project` repository onto your machine.
-
-    git clone git@github.com:ZiangNiu6/RJdCov-project.git
-
-Then enter the `RJdCov-project.Rproj`. One needs to first restore the
+First, clone the `RJdCov-project` repository onto your machine. Then
+enter the `RJdCov-project.Rproj`. One needs to first restore the
 necessary R packages using the following R code.
 
     library(renv)
