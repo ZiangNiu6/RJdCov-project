@@ -140,6 +140,7 @@ saveRDS(result, "simulation/results/dependence_results.rds")
 # compute the rejection rate
 result <- readRDS("simulation/results/dependence_results.rds")
 alpha <- 0.05
-sapply(result, function(x){
+print(sapply(result, function(x){
   apply(x, 2, function(y) mean(y <= alpha))
 })
+)
