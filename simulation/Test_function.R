@@ -152,6 +152,81 @@ boot_hodcov <- function(X, B){
   length(which(boot >= test_stat)) / (B + 1)
 }
 
+
+### Transport Dependency (Nies, Staudt, Munk 2021) — OT-based independence test
+# cost = "euclidean": sum of per-group Euclidean distances (Otter.jl default)
+#   c(z_i, z_j) = sum_k ||X^(k)_i - X^(k)_j||
+# cost = "sq_euclidean": squared Euclidean on the joint space
+#   c(z_i, z_j) = ||z_i - z_j||^2 = sum_k ||X^(k)_i - X^(k)_j||^2
+
+# Helper: compute n x n squared Euclidean distance matrix using BLAS-accelerated tcrossprod
+sq_euclidean_dist_matrix <- function(A, B) {
+  normA <- rowSums(A^2)
+  normB <- rowSums(B^2)
+  cross <- tcrossprod(A, B)
+  D2 <- outer(normA, normB, "+") - 2 * cross
+  D2[D2 < 0] <- 0  # clamp floating-point artifacts
+  D2
+}
+
+# Compute transport dependency statistic for a single dataset
+# X_list: list of d matrices, each n x p_j (same interface as jdcov.test, dhsic.test)
+# k: number of inner permutations to approximate the product measure
+# cost: "euclidean" or "sq_euclidean"
+compute_transport_dep <- function(X_list, k = 1, cost = "euclidean") {
+  d <- length(X_list)
+  n <- nrow(X_list[[1]])
+
+  costs <- numeric(k)
+  for (j in 1:k) {
+    # Generate independent permutations for groups 2,...,d
+    perms <- lapply(2:d, function(g) sample(n))
+
+    # Build cost matrix group-by-group
+    C <- matrix(0, n, n)
+    for (g in 1:d) {
+      A <- X_list[[g]]
+      if (g == 1) {
+        B <- A  # group 1 is unpermuted in both joint and product
+      } else {
+        B <- A[perms[[g - 1]], , drop = FALSE]
+      }
+      D2 <- sq_euclidean_dist_matrix(A, B)
+      if (cost == "euclidean") {
+        C <- C + sqrt(D2)
+      } else {
+        C <- C + D2
+      }
+    }
+    assignment <- clue::solve_LSAP(C)
+    costs[j] <- sum(C[cbind(1:n, as.integer(assignment))]) / n
+  }
+  mean(costs)
+}
+
+# Permutation test for transport dependency (self-contained, like boot_matteson)
+# X_list: list of d matrices, each n x p_j
+# B: number of outer permutations (null draws)
+# k: number of inner permutations per statistic evaluation
+# cost: "euclidean" or "sq_euclidean"
+boot_transport_dep <- function(X_list, B = 500, k = 1, cost = "euclidean") {
+  d <- length(X_list)
+  n <- nrow(X_list[[1]])
+
+  test_stat <- compute_transport_dep(X_list, k = k, cost = cost)
+
+  boot <- numeric(B)
+  for (b in 1:B) {
+    # Outer permutation: destroy dependence between groups
+    X_perm <- list(X_list[[1]])
+    for (g in 2:d) {
+      X_perm[[g]] <- X_list[[g]][sample(n), , drop = FALSE]
+    }
+    boot[b] <- compute_transport_dep(X_perm, k = k, cost = cost)
+  }
+  length(which(boot >= test_stat)) / (B + 1)
+}
+
 ## bootstrap sample generator with list output
 boot_sample_list <- function(X, n, d){
   boot_idx <- matrix(0, n, d)
