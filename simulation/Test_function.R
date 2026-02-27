@@ -323,11 +323,47 @@ generate_low_dim_Gaussian <- function(n, d, num_variable_per_group, cov_mat){
 generate_low_dim_mvt <- function(n, d, num_variable_per_group, cov_mat, df){
   X <- NULL
   for(group in 1:(d / num_variable_per_group)){
-    X_low <- as.matrix(mvtnorm::rmvt(n = n, 
+    X_low <- as.matrix(mvtnorm::rmvt(n = n,
                                      sigma = cov_mat, df = df))
-    
+
     # cbind the matrix
     X <- cbind(X, X_low)
   }
   return(X)
+}
+
+# Generate center-outward (Hallin) reference grid on the unit ball B_p
+# Following Hallin (2017) and Shi, Drton & Han (JASA 2022)
+# Returns an n x p matrix of grid points inside B_p
+generate_hallin_grid <- function(n, p) {
+  if (p == 1) {
+    # Quantiles of Uniform(-1, 1)
+    grid <- matrix(2 * (1:n) / (n + 1) - 1, ncol = 1)
+    return(grid)
+  }
+
+  # p >= 2: concentric shells on B_p
+  K <- round(n^(1/p))          # number of shells
+  n_per_shell <- floor(n / K)  # base points per shell
+  remainder <- n - n_per_shell * K
+
+  grid <- matrix(0, nrow = 0, ncol = p)
+  for (j in 1:K) {
+    # number of points on this shell (distribute remainder to first shells)
+    nj <- n_per_shell + ifelse(j <= remainder, 1, 0)
+
+    # radius: quantile of radial distribution of Uniform(B_p)
+    rj <- ((j - 0.5) / K)^(1/p)
+
+    # random unit directions
+    Z <- matrix(rnorm(nj * p), nrow = nj, ncol = p)
+    row_norms <- sqrt(rowSums(Z^2))
+    directions <- Z / row_norms
+
+    # scale by radius
+    shell_points <- rj * directions
+    grid <- rbind(grid, shell_points)
+  }
+
+  return(grid)
 }

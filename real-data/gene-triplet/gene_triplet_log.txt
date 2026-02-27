@@ -1,0 +1,115 @@
+- The project is out-of-sync -- use `renv::status()` for details.
+This is randtoolbox. For an overview, type 'help("randtoolbox")'.
+
+Attaching package: ‘EnvStats’
+
+The following objects are masked from ‘package:stats’:
+
+    predict, predict.lm
+
+
+Attaching package: ‘LaplacesDemon’
+
+The following objects are masked from ‘package:EnvStats’:
+
+    dpareto, ppareto, qpareto, rpareto
+
+The following objects are masked from ‘package:mvtnorm’:
+
+    dmvt, logdet, rmvt
+
+The following objects are masked from ‘package:pracma’:
+
+    logit, loglog, Mode
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:EnvStats’:
+
+    boxcox
+
+Loaded gene Z-scores: 259 samples x 18 genes
+CYTO genes:   TRAC, NKG7, KLRD1, PRF1, GZMB, GNLY
+ECM genes:    TGFB1, SERPINE1, COL1A1, FN1, ACTA2, TAGLN
+PROLIF genes: MKI67, TOP2A, CDK1, CCNB1, MCM2, UBE2C
+
+Precomputing null distributions...
+  Pairwise RdCov null (dim_list=c(1,1))...
+  3-way RdCov null (dim_list=c(1,1,1))...
+  3-way RJdCov null (dim_list=c(1,1,1))...
+Null distributions ready.
+
+Testing 216 triplet combinations (6 x 6 x 6)
+
+[1/216] TRAC - TGFB1 - MKI67
+[11/216] TRAC - SERPINE1 - MCM2
+[21/216] TRAC - FN1 - CDK1
+[31/216] TRAC - TAGLN - MKI67
+[41/216] NKG7 - TGFB1 - MCM2
+[51/216] NKG7 - COL1A1 - CDK1
+[61/216] NKG7 - ACTA2 - MKI67
+[71/216] NKG7 - TAGLN - MCM2
+[81/216] KLRD1 - SERPINE1 - CDK1
+[91/216] KLRD1 - FN1 - MKI67
+[101/216] KLRD1 - ACTA2 - MCM2
+[111/216] PRF1 - TGFB1 - CDK1
+[121/216] PRF1 - COL1A1 - MKI67
+[131/216] PRF1 - FN1 - MCM2
+[141/216] PRF1 - TAGLN - CDK1
+[151/216] GZMB - SERPINE1 - MKI67
+[161/216] GZMB - COL1A1 - MCM2
+[171/216] GZMB - ACTA2 - CDK1
+[181/216] GNLY - TGFB1 - MKI67
+[191/216] GNLY - SERPINE1 - MCM2
+[201/216] GNLY - FN1 - CDK1
+[211/216] GNLY - TAGLN - MKI67
+
+===============================================
+  Combinatorial test complete: 216 triplets
+===============================================
+
+Higher-order only (RdCov-based): 11 / 216 triplets
+Higher-order only (dCov-based):  11 / 216 triplets
+
+--- Higher-order only triplets (RdCov-based) ---
+ gene_CYTO gene_ECM gene_PROLIF p12_rd_holm p13_rd_holm p23_rd_holm p_rjdcov
+      TRAC SERPINE1       MKI67     0.11094     0.23388      0.4193  0.04998
+      TRAC SERPINE1       TOP2A     0.11094     0.48326      0.1109  0.03048
+      TRAC SERPINE1       UBE2C     0.11094     0.56322      0.1229  0.03898
+      TRAC      FN1       MKI67     0.11094     0.23388      0.2339  0.03698
+      TRAC    ACTA2       MKI67     0.11094     0.11694      0.1109  0.01349
+      TRAC    ACTA2       TOP2A     0.11094     0.48326      0.1109  0.02099
+      NKG7      FN1        CDK1     0.05847     0.07496      0.5837  0.02099
+      NKG7      FN1       CCNB1     0.05847     0.24988      0.2499  0.02549
+      PRF1      FN1       MKI67     0.40880     0.07196      0.4088  0.04398
+      GZMB      FN1       MKI67     0.18891     0.18891      0.2044  0.04398
+      GNLY   COL1A1       CCNB1     0.15442     0.15442      0.2509  0.03748
+
+--- Higher-order only triplets (dCov-based) ---
+ gene_CYTO gene_ECM gene_PROLIF p12_dcov_holm p13_dcov_holm p23_dcov_holm
+      TRAC SERPINE1       UBE2C       0.06587       0.36527       0.07186
+      TRAC      FN1       MKI67       0.10180       0.19561       0.28942
+      TRAC    ACTA2       MKI67       0.09581       0.09581       0.09581
+      TRAC    ACTA2       TOP2A       0.08383       0.46707       0.08383
+      TRAC    ACTA2        CDK1       0.07784       0.41916       0.37924
+      TRAC    TAGLN       TOP2A       0.22754       0.46507       0.22754
+      TRAC    TAGLN       CCNB1       0.18762       0.42715       0.05988
+      PRF1      FN1       MKI67       0.44311       0.12575       0.44311
+      GZMB   COL1A1       TOP2A       0.05988       0.05389       0.79840
+      GNLY   COL1A1       CCNB1       0.13772       0.17565       0.17764
+      GNLY    TAGLN       CCNB1       0.13972       0.13972       0.08383
+  p_jdcov
+ 0.001996
+ 0.025948
+ 0.007984
+ 0.007984
+ 0.025948
+ 0.037924
+ 0.037924
+ 0.045908
+ 0.005988
+ 0.019960
+ 0.031936
+
+Full results saved to real-data/gene-triplet/gene_combinatorial_results.rds

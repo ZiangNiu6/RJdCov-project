@@ -317,7 +317,7 @@ Xr <- data.frame(Real_estate = X[,1], JCS = X[,2], ZOOM = X[,3],
 
 ## use multivariance::dependence.structure using "jdcov"
 res_jdcov <- multivariance::dependence.structure(Xr, structure.type = "full")
-pdf(file = "real-data/dcov_finance.pdf",   # The directory you want to save the file in
+pdf(file = "real-data/finance/dcov_finance.pdf",   # The directory you want to save the file in
     width =  0.8*TEXTWIDTH, # The width of the plot in inches
     height = 0.45*TEXTHEIGHT)
 plot(clean.graph(res_jdcov$graph, simplify.pairs = FALSE))
@@ -362,7 +362,7 @@ Xr <- data.frame(Real_estate = X[,1], JCS = X[,2], ZOOM = X[,3],
 
 ## use multivariance::dependence.structure using "jdcov"
 res_rjdcov <- multivariance::dependence.structure(Xr, structure.type = "full")
-pdf(file = "real-data/rjdcov_finance.pdf",   # The directory you want to save the file in
+pdf(file = "real-data/finance/rjdcov_finance.pdf",   # The directory you want to save the file in
     width =  0.8*TEXTWIDTH, # The width of the plot in inches
     height = 0.45*TEXTHEIGHT)
 plot(clean.graph(res_rjdcov$graph, simplify.pairs = FALSE))

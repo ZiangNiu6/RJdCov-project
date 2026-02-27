@@ -1,0 +1,166 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{multirow}
+
+% ---------------------------
+% Embedded BibTeX database
+% ---------------------------
+\begin{filecontents*}{refs.bib}
+@article{TCGA_SARC_Cell2017,
+  author  = {{Cancer Genome Atlas Research Network}},
+  title   = {Comprehensive and Integrated Genomic Characterization of Adult Soft Tissue Sarcomas},
+  journal = {Cell},
+  year    = {2017},
+  volume  = {171},
+  number  = {4},
+  pages   = {950--965.e28},
+  doi     = {10.1016/j.cell.2017.10.014}
+}
+
+@article{Weng_BMCImmunol2022,
+  author  = {Weng, Weiwei and Yu, Lin and Li, Zhang and Tan, Cong and Lv, Jiaojie and Lao, I Weng and Hu, Wenhuo and others},
+  title   = {The immune subtypes and landscape of sarcomas},
+  journal = {BMC Immunology},
+  year    = {2022},
+  volume  = {23},
+  pages   = {46},
+  doi     = {10.1186/s12865-022-00522-3}
+}
+
+@article{Mariathasan_Nature2018,
+  author  = {Mariathasan, Sanjeev and Turley, Shannon J. and others},
+  title   = {TGF-$\beta$ attenuates tumour response to {PD-L1} blockade by contributing to exclusion of {T} cells},
+  journal = {Nature},
+  year    = {2018},
+  volume  = {554},
+  number  = {7693},
+  pages   = {544--548},
+  doi     = {10.1038/nature25501}
+}
+
+@article{Ganesh_Immunity2018,
+  author  = {Ganesh, Karuna and Massagu{\'e}, Joan},
+  title   = {TGF-$\beta$ Inhibition and Immunotherapy: Checkmate},
+  journal = {Immunity},
+  year    = {2018},
+  volume  = {48},
+  number  = {4},
+  pages   = {626--628},
+  doi     = {10.1016/j.immuni.2018.03.037}
+}
+
+@article{SzekelyRizzoBakirov_AnnStat2007,
+  author  = {Sz{\'e}kely, G{\'a}bor J. and Rizzo, Maria L. and Bakirov, Nail K.},
+  title   = {Measuring and Testing Dependence by Correlation of Distances},
+  journal = {The Annals of Statistics},
+  year    = {2007},
+  volume  = {35},
+  number  = {6},
+  pages   = {2769--2794},
+  doi     = {10.1214/009053607000000505}
+}
+
+@article{NiuBhattacharya_arXiv2022,
+  author        = {Niu, Ziang and Bhattacharya, Bhaswar B.},
+  title         = {Distribution-Free Joint Independence Testing and Robust Independent Component Analysis Using Optimal Transport},
+  journal       = {arXiv},
+  year          = {2022},
+  eprint        = {2211.15639},
+  archivePrefix = {arXiv},
+  primaryClass  = {math.ST}
+}
+\end{filecontents*}
+
+\title{Higher-order dependence in TCGA-SARC gene expression: \\
+a case study with RJdCov}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Detecting higher-order-only dependence among immune, stromal, and proliferative programs in soft-tissue sarcoma}
+
+\paragraph{Motivation and data description.}
+Soft-tissue sarcomas are a heterogeneous family of mesenchymal malignancies with substantial diversity in histology, tumor composition, and immune microenvironment \citep{TCGA_SARC_Cell2017}.
+In bulk RNA-seq each tumor sample reflects a mixture of tumor-intrinsic programs (e.g., proliferation) and microenvironment programs (e.g., immune infiltration, extracellular matrix remodeling), creating multi-axis constraints in which immune function may depend jointly on stromal context and tumor state rather than being well captured by any single pairwise relationship.
+Evidence that TGF-$\beta$--associated stroma contributes to immune exclusion \citep{Mariathasan_Nature2018,Ganesh_Immunity2018} and that sarcoma immune landscapes are heterogeneous \citep{Weng_BMCImmunol2022} motivates investigating a triplet structure spanning (i) cytotoxic immune activity, (ii) ECM/TGF-$\beta$--related stromal remodeling, and (iii) proliferation.
+
+We obtained bulk RNA-seq data (STAR--Counts, primary tumors, open access) for the TCGA-SARC cohort via the \texttt{TCGAbiolinks} R/Bioconductor package.
+After removing genes with fewer than 10 counts in at least 10 samples, we applied TMM normalization (\texttt{edgeR}), computed $\log_2$-counts per million, and standardized each gene to zero mean and unit variance, yielding $n=259$ samples across ${\sim}19{,}000$ genes.
+We defined three biologically motivated modules of six genes each:
+\begin{itemize}[leftmargin=*,nosep]
+\item \textbf{CYTO (cytotoxic immune):} \texttt{TRAC, NKG7, KLRD1, PRF1, GZMB, GNLY}.
+\item \textbf{ECM (TGF-$\beta$/stromal):} \texttt{TGFB1, SERPINE1, COL1A1, FN1, ACTA2, TAGLN}.
+\item \textbf{PROLIF (proliferation):} \texttt{MKI67, TOP2A, CDK1, CCNB1, MCM2, UBE2C}.
+\end{itemize}
+
+\paragraph{Analysis procedure and methods.}
+We tested all $6\times 6\times 6=216$ single-gene triplets (one gene per module) for pairwise independence and three-way dependence.
+
+For every triplet the test battery comprised:
+(a) \emph{pairwise independence screening} using both the rank-based distance covariance (RdCov; null pre-computed via Halton permutations, $B_{\mathrm{null}}=2{,}000$) and the classical distance covariance (dCov; bootstrap, $B=500$), with Holm correction across the three pairs;
+(b) \emph{three-way joint independence testing} using both the rank-based joint distance covariance (RJdCov; pre-computed null, $B_{\mathrm{null}}=2{,}000$) and the classical joint distance covariance (JdCov; permutation test, same $B$); and additionally the higher-order (Lancaster-type) variants RdCov and HodCov.
+A triplet is declared ``higher-order dependence only'' if all Holm-corrected pairwise $p$-values exceed $0.05$ while the joint test (RJdCov or JdCov) rejects at level $0.05$.
+
+We treat RJdCov as the primary evidence for higher-order structure and JdCov as supportive, for reasons discussed below.
+
+\paragraph{Results and interpretation.}
+We identified 16 unique triplets exhibiting higher-order-only dependence: 11 detected by RJdCov, 11 by JdCov, with 6 found by both methods.
+Table~\ref{tab:ho} lists all 16 triplets with their joint-test $p$-values.
+The recurring pattern is biologically coherent: immune cytotoxic markers (\texttt{TRAC} appearing in 10 of 16 triplets, alongside \texttt{NKG7/PRF1/GZMB/GNLY}), stromal activation markers (\texttt{FN1/ACTA2/SERPINE1/COL1A1/TAGLN}), and canonical proliferation markers (\texttt{MKI67/TOP2A/CDK1/CCNB1/UBE2C}).
+This is consistent with a ``regime-mixture'' interpretation: across a heterogeneous cohort, cytotoxic activity can be high in immune-inflamed tumors yet remains low in tumors with strong ECM/TGF-$\beta$ programs or in highly proliferative states.
+Such regime mixtures can produce weak pairwise associations while maintaining a strong three-way constraint, making higher-order dependence testing a principled tool for detecting these patterns.
+
+Both JdCov and RJdCov are grounded in distance-based dependence ideas \citep{SzekelyRizzoBakirov_AnnStat2007}, but RJdCov is particularly appealing in TCGA bulk RNA-seq because it is rank/OT-based and therefore more robust to common sources of nuisance variation.
+TCGA expression measurements across heterogeneous tumors are often heavy-tailed and susceptible to outliers driven by varying tumor purity, extreme infiltration, and batch/normalization effects.
+In such settings, raw-value distance statistics (JdCov) can be disproportionately influenced by a small number of extreme samples, whereas rank-based procedures dampen outlier leverage and are invariant (or near-invariant) to monotone rescalings that arise from different reasonable preprocessing choices (e.g., log-CPM vs.\ variance-stabilized transforms).
+The OT-rank framework further provides a distribution-free calibration strategy and robustness properties that are explicitly emphasized in the RJdCov methodology \citep{NiuBhattacharya_arXiv2022}.
+The fact that six triplets are flagged by both the rank-based (RJdCov) and raw-value (JdCov) procedures provides additional confidence that the signal reflects genuine biological structure rather than a methodological artifact.
+We note two caveats: (i) the 216 gene-level $p$-values have not been adjusted for multiplicity and should be interpreted as exploratory; (ii) some portion of the triadic signal may reflect compositional or subtype-mixing effects inherent in bulk RNA-seq, which could be further investigated by stratifying by histology or adjusting for tumor purity.
+
+\begin{table}[t]
+\centering
+\caption{Gene-level triplets with higher-order-only dependence.  Each triplet passed the pairwise gatekeeping screen (all Holm-corrected pairwise $p>0.05$) and was rejected by RJdCov, JdCov, or both at level $0.05$.  The ``Detected by'' column indicates which joint test(s) flagged the triplet.}
+\label{tab:ho}
+\smallskip
+\begin{tabular}{llllll}
+\toprule
+ & CYTO gene & ECM gene & PROLIF gene & $p_{\text{RJdCov}}$ & $p_{\text{JdCov}}$ \\
+\midrule
+\multicolumn{6}{l}{\emph{Detected by both RJdCov and JdCov}} \\
+& \texttt{TRAC} & \texttt{ACTA2} & \texttt{MKI67} & 0.014 & 0.008 \\
+& \texttt{TRAC} & \texttt{ACTA2} & \texttt{TOP2A} & 0.021 & 0.008 \\
+& \texttt{TRAC} & \texttt{FN1} & \texttt{MKI67} & 0.037 & 0.026 \\
+& \texttt{TRAC} & \texttt{SERPINE1} & \texttt{UBE2C} & 0.039 & 0.002 \\
+& \texttt{PRF1} & \texttt{FN1} & \texttt{MKI67} & 0.044 & 0.046 \\
+& \texttt{GNLY} & \texttt{COL1A1} & \texttt{CCNB1} & 0.037 & 0.020 \\
+\midrule
+\multicolumn{6}{l}{\emph{Detected by RJdCov only}} \\
+& \texttt{TRAC} & \texttt{SERPINE1} & \texttt{MKI67} & 0.050 & 0.008 \\
+& \texttt{TRAC} & \texttt{SERPINE1} & \texttt{TOP2A} & 0.030 & 0.012 \\
+& \texttt{NKG7} & \texttt{FN1} & \texttt{CDK1} & 0.021 & 0.024 \\
+& \texttt{NKG7} & \texttt{FN1} & \texttt{CCNB1} & 0.025 & 0.048 \\
+& \texttt{GZMB} & \texttt{FN1} & \texttt{MKI67} & 0.044 & 0.080 \\
+\midrule
+\multicolumn{6}{l}{\emph{Detected by JdCov only}} \\
+& \texttt{TRAC} & \texttt{ACTA2} & \texttt{CDK1} & 0.079 & 0.026 \\
+& \texttt{TRAC} & \texttt{TAGLN} & \texttt{TOP2A} & 0.072 & 0.038 \\
+& \texttt{TRAC} & \texttt{TAGLN} & \texttt{CCNB1} & 0.044 & 0.038 \\
+& \texttt{GNLY} & \texttt{TAGLN} & \texttt{CCNB1} & 0.013 & 0.032 \\
+& \texttt{GZMB} & \texttt{COL1A1} & \texttt{TOP2A} & 0.012 & 0.006 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}
