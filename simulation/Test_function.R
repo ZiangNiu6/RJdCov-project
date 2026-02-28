@@ -335,7 +335,7 @@ generate_low_dim_mvt <- function(n, d, num_variable_per_group, cov_mat, df){
 # Generate center-outward (Hallin) reference grid on the unit ball B_p
 # Following Hallin (2017) and Shi, Drton & Han (JASA 2022)
 # Returns an n x p matrix of grid points inside B_p
-generate_hallin_grid <- function(n, p) {
+generate_outward_grid <- function(n, p) {
   if (p == 1) {
     # Quantiles of Uniform(-1, 1)
     grid <- matrix(2 * (1:n) / (n + 1) - 1, ncol = 1)

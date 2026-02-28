@@ -40,7 +40,7 @@ If box above is checked and if no simulated/synthetic data files are provided by
 
 ## Abstract
 
-The data is about daily returns on selected stocks, the Market portfolio and factors of Fama and French from 1993-01-05 to 2009-01-30 for CAPM and APT analysis.
+Two external datasets are used. (1) Daily returns on selected stocks, the Market portfolio, and factors of Fama and French from 1993-01-05 to 2009-01-30, used for pairwise and joint independence testing among industry sectors. (2) TCGA-SARC bulk RNA-seq gene expression data (STAR--Counts, primary tumors, open access) for 259 soft-tissue sarcoma samples, used for detecting higher-order dependence among cytotoxic immune, ECM/stromal, and proliferation gene modules.
 
 <!--
 Provide a short (< 100 words), high-level description of the data
@@ -62,13 +62,15 @@ Provide a short (< 100 words), high-level description of the data
 
 - [x] Data are or will be made available through some other mechanism, described here:
 
-The data analyzed in the paper can be accessed by the following R code:
+**Dataset 1 (Finance):** The Finance data can be accessed by the following R code:
 
-```         
+```
 install.packages("gmm")
 library(gmm)
 data <- data(Finance)
 ```
+
+**Dataset 2 (TCGA-SARC):** The TCGA-SARC RNA-seq gene expression data are publicly available from the Genomic Data Commons (GDC) and can be downloaded using the `TCGAbiolinks` R/Bioconductor package. The download and preprocessing script is provided at `real-data/gene-triplet/01_download_data.R`. Alternatively, the preprocessed gene Z-scores used in the analysis are included in the repository as `real-data/gene-triplet/TCGA_SARC_gene_zscores.rds`.
 
 <!-- If data are available by request to the authors or some other data owner, please make sure to explain the process of requesting access to the data. -->
 
@@ -80,8 +82,8 @@ data <- data(Finance)
 Check all that apply
 -->
 - [ ] CSV or other plain text.
-- [x] Software-specific binary format (.Rda, Python pickle, etc.): .Rda
-- [ ] Standardized binary format (e.g., netCDF, HDF5, etc.): 
+- [x] Software-specific binary format (.Rda, Python pickle, etc.): .Rda, .rds
+- [ ] Standardized binary format (e.g., netCDF, HDF5, etc.):
 - [ ] Other (please specify):
 
 ### Data dictionary
@@ -92,7 +94,9 @@ A data dictionary provides information that allows users to understand the meani
 
 - [ ] Provided by authors in the following file(s):
 - [ ] Data file(s) is(are) self-describing (e.g., netCDF files)
-- [x] Available at the following URL: https://www.rdocumentation.org/packages/gmm/versions/1.8/topics/Finance
+- [x] Available at the following URLs:
+  - Finance: https://www.rdocumentation.org/packages/gmm/versions/1.8/topics/Finance
+  - TCGA-SARC: https://portal.gdc.cancer.gov/projects/TCGA-SARC (accessed via `TCGAbiolinks`)
 
 # Part 2: Code
 
@@ -146,7 +150,7 @@ R version 4.4.1
 #### Libraries and dependencies used by the code
 
 
-All the packages and their version numbers can be found in the following chunk of R code. Note that the instruction for settling the R environment with these packages can be found in the README in the GitHub provided below. In particular, the `renv` package will be used for this purpose.
+All the packages and their version numbers can be found in the following chunk of R code. Note that the instruction for settling the R environment with these packages can be found in the README in the GitHub provided below. In particular, the `renv` package will be used for this purpose. The gene-triplet analysis additionally requires Bioconductor packages `TCGAbiolinks`, `SummarizedExperiment`, and `edgeR` (installed via `BiocManager`).
 ```         
 pack_versions <- c(
   "EnvStats" = "3.0.0",

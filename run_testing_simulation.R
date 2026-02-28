@@ -21,11 +21,11 @@ source("simulation/varying_dim/varying_dim_GB.R")
 source("simulation/varying_dim/varying_dim_H.R")
 source("simulation/varying_dim/varying_dim_plot.R")
 
-########################## Figure 6 in the supplement ##########################
+########################## Figure 7 in the supplement ##########################
 source("simulation/low_dimension/simulation_low_dim.R")
 source("simulation/low_dimension/low_dim_plot.R")
 
-########################## Figure 7 in the supplement ##########################
+########################## Figure 8 in the supplement ##########################
 source("simulation/varying_c/varying_c_simulation.R")
 source("simulation/varying_c/varying_c_plot.R")
 

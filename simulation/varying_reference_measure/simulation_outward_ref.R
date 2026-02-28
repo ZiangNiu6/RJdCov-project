@@ -9,9 +9,9 @@ method_list <- c("rdhdcov")
 ###Gaussian Toeplitz### vary rho within {0.05,0.1,0.15,0.2,0.25}
 set.seed(1)
 reference_data <- cbind(
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3)
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3)
 )
 emprical <- gensamdistrjdcov(n, fixgrid = reference_data,
                              dim_list = rep(3, 3), niter=1000)
@@ -47,9 +47,9 @@ saveRDS(power_GT, "simulation/results/GT_power_outward_ref.rds")
 #######banded covariance matrix setting########
 set.seed(1)
 reference_data <- cbind(
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3)
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3)
 )
 emprical <- gensamdistrjdcov(n, fixgrid = reference_data,
                              dim_list = rep(3, 3), niter=1000)
@@ -84,9 +84,9 @@ saveRDS(power_GB, "simulation/results/GB_power_outward_ref.rds")
 #######heavy-tailed regression#########
 set.seed(1)
 reference_data <- cbind(
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3)
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3)
 )
 emprical <- gensamdistrjdcov(n, fixgrid = reference_data,
                              dim_list = rep(3, 3), niter=1000)
@@ -120,9 +120,9 @@ saveRDS(power_H, "simulation/results/H_power_outward_ref.rds")
 ### additive sin dependence#####
 set.seed(1)
 reference_data <- cbind(
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3),
-  generate_hallin_grid(n, 3)
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3),
+  generate_outward_grid(n, 3)
 )
 emprical <- gensamdistrjdcov(n, fixgrid = reference_data,
                              dim_list = rep(3, 3), niter=1000)

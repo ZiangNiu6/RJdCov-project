@@ -11,7 +11,7 @@ This repository reproduces the results reported in the paper.
 
 First, clone the `RJdCov-project` repository onto your machine. Then enter the `RJdCov-project.Rproj`. One needs to first restore the necessary R packages using the following R code.
 
-```         
+```
 library(renv)
 renv::restore()
 ```
@@ -22,33 +22,93 @@ The following commands require to be executed in terminal; or you can use `sourc
 
 ## Run the simulation for comparing different tests and create figures
 
-One can use the following command to reproduce the simulation results for Type-I error and power comparison of different tests. 
+One can use the following command to reproduce the simulation results for Type-I error and power comparison of different tests.
 
-``` 
+```
 Rscript run_testing_simulation.R
 ```
 
+This script covers:
+
+- Power comparison under the original setup (Figure 1 in the main text; Figures 2, 3 in the supplement)
+- Higher-order dependence detection (Table 1 in the main text)
+- Local Konjin alternative (Figure 1 in the supplement)
+- Type-I error comparison (Table 1 in the supplement)
+- Varying reference measure (Figure 4 in the supplement)
+- Varying dimension (Figure 5 in the supplement)
+- Low-dimensional supported distributions (Figure 7 in the supplement)
+- Varying tuning parameter $c$ (Figure 8 in the supplement)
+
 ## Run the ICA simulation and create figures
 
-One can use the following command to reproduce the ICA simulation results. 
+One can use the following command to reproduce the ICA simulation results.
 
-``` 
+```
 Rscript run_ICA.R
 ```
 
+This produces Figure 2 in the main text and Table 2 in the supplement.
+
 ## Run the dependence set recovery simulation and create figures
 
-One can use the following command to reproduce the simulation results for dependence set recovery. 
+One can use the following command to reproduce the simulation results for dependence set recovery.
 
-``` 
+```
 Rscript run_dependence_recovery.R
 ```
 
+This produces Figure 10 in the supplement.
 
 ## Run the real data analysis and create figures
 
-One can use the following command to reproduce the real data analysis results. 
+One can use the following command to reproduce the real data analysis results for the finance data.
 
-``` 
+```
 Rscript run_real_data.R
+```
+
+This produces Figure 3 in the main text and Tables 3, 4 in the supplement.
+
+## Additional simulations
+
+The following simulations can be reproduced by sourcing the individual scripts.
+
+### Count data simulations (Figure 9 in the supplement)
+
+Power analysis on discretized count data (Cauchy and Poisson):
+
+```
+Rscript simulation/count_data/cauchy_discretized.R
+Rscript simulation/count_data/poisson_discretized.R
+Rscript -e 'source("simulation/count_data/count_data_plot.R")'
+```
+
+### High-dimensional simulations with transport dependency (Figure 6 in the supplement)
+
+Varying dimension ($d = 20$--$100$, $n = 50$) under Gaussian Toeplitz and Cauchy setups, including comparison with the transport dependency (TDep) method:
+
+```
+Rscript simulation/varying_dim/varying_dim_GT_new.R
+Rscript simulation/varying_dim/varying_dim_H_new.R
+```
+
+### Center-outward reference measure
+
+Power analysis using the center-outward reference measure:
+
+```
+Rscript simulation/varying_reference_measure/simulation_outward_ref.R
+Rscript -e 'source("simulation/varying_reference_measure/varying_ref_plot.R")'
+```
+
+### Gene-triplet analysis (TCGA-SARC; Table 5, Appendix L.1 in the supplement)
+
+Higher-order dependence testing among cytotoxic immune, ECM/stromal, and proliferation gene modules using TCGA-SARC RNA-seq data. The raw data can be downloaded from GDC using the provided script, or the preprocessed gene Z-scores (`TCGA_SARC_gene_zscores.rds`) are included in the repository.
+
+```
+# Step 1 (optional): Download and preprocess TCGA-SARC data
+Rscript real-data/gene-triplet/01_download_data.R
+
+# Step 2: Run the combinatorial gene-triplet independence tests
+Rscript real-data/gene-triplet/02_gene_triplet_test.R
 ```

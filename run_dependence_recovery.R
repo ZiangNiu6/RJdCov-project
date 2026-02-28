@@ -16,5 +16,5 @@ source("dependence_recovery/Student-simulation.R")
 source("dependence_recovery/Gaussian-result.R")
 source("dependence_recovery/Student-result.R")
 
-# plot (Figure 8 in the supplement)
+# plot (Figure 10 in the supplement)
 source("dependence_recovery/plot.R")

@@ -391,9 +391,13 @@ use the data used in this manuscript.</label></li>
 <!-- If data are simulated using random number generation, please be sure to set the random number seed in the code you provide -->
 <div id="abstract" class="section level2">
 <h2>Abstract</h2>
-<p>The data is about daily returns on selected stocks, the Market
-portfolio and factors of Fama and French from 1993-01-05 to 2009-01-30
-for CAPM and APT analysis.</p>
+<p>Two external datasets are used. (1) Daily returns on selected stocks,
+the Market portfolio, and factors of Fama and French from 1993-01-05 to
+2009-01-30, used for pairwise and joint independence testing among
+industry sectors. (2) TCGA-SARC bulk RNA-seq gene expression data
+(STAR–Counts, primary tumors, open access) for 259 soft-tissue sarcoma
+samples, used for detecting higher-order dependence among cytotoxic
+immune, ECM/stromal, and proliferation gene modules.</p>
 <!--
 Provide a short (< 100 words), high-level description of the data
 -->
@@ -406,9 +410,6 @@ publicly available.</label></li>
 <li><label><input type="checkbox"></input>Data <strong>cannot be made</strong>
 publicly available.</label></li>
 </ul>
-<p>If the data are publicly available, see the <em>Publicly available
-data</em> section. Otherwise, see the <em>Non-publicly available
-data</em> section, below.</p>
 <div id="publicly-available-data" class="section level3">
 <h3>Publicly available data</h3>
 <ul class="task-list">
@@ -422,23 +423,20 @@ request, following the process described here:</label></p></li>
 made available through some other mechanism, described
 here:</label></p></li>
 </ul>
-<p>The data analyzed in the paper can be accessed by the following R
-code:</p>
+<p><strong>Dataset 1 (Finance):</strong> The Finance data can be
+accessed by the following R code:</p>
 <pre><code>install.packages(&quot;gmm&quot;)
 library(gmm)
 data &lt;- data(Finance)</code></pre>
+<p><strong>Dataset 2 (TCGA-SARC):</strong> The TCGA-SARC RNA-seq gene
+expression data are publicly available from the Genomic Data Commons
+(GDC) and can be downloaded using the <code>TCGAbiolinks</code>
+R/Bioconductor package. The download and preprocessing script is
+provided at <code>real-data/gene-triplet/01_download_data.R</code>.
+Alternatively, the preprocessed gene Z-scores used in the analysis are
+included in the repository as
+<code>real-data/gene-triplet/TCGA_SARC_gene_zscores.rds</code>.</p>
 <!-- If data are available by request to the authors or some other data owner, please make sure to explain the process of requesting access to the data. -->
-</div>
-<div id="non-publicly-available-data" class="section level3">
-<h3>Non-publicly available data</h3>
-<!--
-The Journal of the American Statistical Association requires authors to make data accompanying their papers available to the scientific community except in cases where: 1) public sharing of data would be impossible, 2) suitable synthetic data are provided which allow the main analyses to be replicated (recognizing that results may differ from the "real" data analyses), and 3) the scientific value of the results and methods outweigh the lack of reproducibility.
-
-Please discuss the lack of publicly available data. For example:
--   why data sharing is not possible,
--   what synthetic data are provided, and 
--   why the value of the paper's scientific contribution outweighs the lack of reproducibility.
--->
 </div>
 </div>
 <div id="description" class="section level2">
@@ -452,7 +450,7 @@ Check all that apply
 <li><label><input type="checkbox"></input>CSV or other plain
 text.</label></li>
 <li><label><input type="checkbox" checked></input>Software-specific binary
-format (.Rda, Python pickle, etc.): .Rda</label></li>
+format (.Rda, Python pickle, etc.): .Rda, .rds</label></li>
 <li><label><input type="checkbox"></input>Standardized binary format (e.g.,
 netCDF, HDF5, etc.):</label></li>
 <li><label><input type="checkbox"></input>Other (please specify):</label></li>
@@ -469,7 +467,12 @@ file(s):</label></li>
 <li><label><input type="checkbox"></input>Data file(s) is(are) self-describing
 (e.g., netCDF files)</label></li>
 <li><label><input type="checkbox" checked></input>Available at the
-following URL: <a href="https://www.rdocumentation.org/packages/gmm/versions/1.8/topics/Finance" class="uri">https://www.rdocumentation.org/packages/gmm/versions/1.8/topics/Finance</a></label></li>
+following URLs:</label>
+<ul>
+<li>Finance: <a href="https://www.rdocumentation.org/packages/gmm/versions/1.8/topics/Finance" class="uri">https://www.rdocumentation.org/packages/gmm/versions/1.8/topics/Finance</a></li>
+<li>TCGA-SARC: <a href="https://portal.gdc.cancer.gov/projects/TCGA-SARC" class="uri">https://portal.gdc.cancer.gov/projects/TCGA-SARC</a>
+(accessed via <code>TCGAbiolinks</code>)</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -519,6 +522,11 @@ Check all that apply
 </div>
 <div id="supporting-software-requirements" class="section level3">
 <h3>Supporting software requirements</h3>
+<p>Only R packages are required and they are listed in the
+<code>Libraries and dependencies used by the code</code> section. The
+citations of these packages can be found by
+<code>citation(&#39;name_of_package&#39;)</code> or the GitHub folder if it is
+not on CRAN.</p>
 <!--
 Please cite all software packages in the References Section in similar fashion to paper citations, citing packages that are foundational to the research outcome (including packages that implement methods to which you compare your methods). You may elect to not cite packages used for supporting purposes. For R packages, note that running `citation('name_of_package')` often shows how the package authors wish to be cited. 
 -->
@@ -531,10 +539,13 @@ Please cite all software packages in the References Section in similar fashion t
 <div id="libraries-and-dependencies-used-by-the-code" class="section level4">
 <h4>Libraries and dependencies used by the code</h4>
 <p>All the packages and their version numbers can be found in the
-following chunk of R code. Note that settling the R environment with
-these packages can be found in the README in the GitHub provided below.
-In particular, the <code>renv</code> package will be used for this
-purpose.</p>
+following chunk of R code. Note that the instruction for settling the R
+environment with these packages can be found in the README in the GitHub
+provided below. In particular, the <code>renv</code> package will be
+used for this purpose. The gene-triplet analysis additionally requires
+Bioconductor packages <code>TCGAbiolinks</code>,
+<code>SummarizedExperiment</code>, and <code>edgeR</code> (installed via
+<code>BiocManager</code>).</p>
 <pre><code>pack_versions &lt;- c(
   &quot;EnvStats&quot; = &quot;3.0.0&quot;,
   &quot;FNN&quot; = &quot;1.1.4.1&quot;,
@@ -703,9 +714,9 @@ The materials provided should provide a straightforward way for reviewers and re
 <ul class="task-list">
 <li><label><input type="checkbox"></input>Any numbers provided in text in the
 paper</label></li>
-<li><label><input type="checkbox"></input>The computational method(s)
-presented in the paper (i.e., code is provided that implements the
-method(s))</label></li>
+<li><label><input type="checkbox" checked></input>The computational
+method(s) presented in the paper (i.e., code is provided that implements
+the method(s))</label></li>
 <li><label><input type="checkbox" checked></input>All tables and figures in
 the paper</label></li>
 <li><label><input type="checkbox"></input>Selected tables and figures in the
@@ -724,7 +735,7 @@ Check all that apply, and in the case of a Git repository include unique identif
 <li><label><input type="checkbox"></input>As part of the paper’s supplementary
 material.</label></li>
 <li><label><input type="checkbox" checked></input>In this Git repository:
-<a href="https://github.com/ZiangNiu6/RJdCov-project" class="uri">https://github.com/ZiangNiu6/RJdCov-project</a></label></li>
+<a href="https://anonymous.4open.science/r/RJdCov-project-84EF/README.md" class="uri">https://anonymous.4open.science/r/RJdCov-project-84EF/README.md</a></label></li>
 <li><label><input type="checkbox"></input>Other (please specify):</label></li>
 </ul>
 <!--

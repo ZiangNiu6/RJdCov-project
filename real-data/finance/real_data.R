@@ -1,3 +1,8 @@
+# Note: The combined dependency graph figure used in the paper
+# (finance_dependency_graph.pdf) is generated from the standalone TikZ file
+# real-data/finance/finance_dependency_graph.tex, not from this R script.
+# Compile with: pdflatex finance_dependency_graph.tex
+
 library(gmm)
 library(stats)
 library(multivariance)
