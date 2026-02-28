@@ -49,10 +49,10 @@ pdf(file = sprintf("%s/ica_box_plot1.pdf", figure_dir),   # The directory you wa
 name_vec <- rep(c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"),
                 each = 2)
 
-boxplot(ICA_results~method*grid_id, 
-        data = as.data.frame(data_to_plot |> filter(grid_id %in% 1:6)), 
+boxplot(ICA_results~method*grid_id,
+        data = as.data.frame(data_to_plot |> filter(grid_id %in% 1:6)),
         notch=FALSE, xlim = c(0.8, 12.1),
-        outline=TRUE,
+        outline=TRUE, outcex=0.5,
         col=(c("blue","darkgreen")),
         ylab="", xlab = "", yaxt="n",xaxt="n",
         main="ICA estimation error")
@@ -69,10 +69,10 @@ pdf(file = sprintf("%s/ica_box_plot2.pdf", figure_dir),   # The directory you wa
     height = 0.45*TEXTHEIGHT)
 
 
-boxplot(ICA_results~method*grid_id, 
-        data = as.data.frame(data_to_plot |> filter(grid_id %in% 7:12)), 
+boxplot(ICA_results~method*grid_id,
+        data = as.data.frame(data_to_plot |> filter(grid_id %in% 7:12)),
         notch=FALSE,
-        outline=TRUE,
+        outline=TRUE, outcex=0.5,
         col=(c("blue","darkgreen")), xlim = c(0.8, 12.1),
         ylab="", xlab = "", yaxt="n",xaxt="n",
         main="ICA estimation error")
