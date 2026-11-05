@@ -5,12 +5,16 @@ This repository reproduces the results reported in the paper.
 
 # Get started
 
-First, clone the `RJdCov-project` repository onto your machine. Then
-enter the `RJdCov-project.Rproj`. One needs to first restore the
-necessary R packages using the following R code.
+The project records R 4.4.1 and its analysis package versions in
+`renv.lock`. First, clone the `RJdCov-project` repository onto your
+machine and open `RJdCov-project.Rproj`. Restore the recorded packages
+using the following R code.
 
     library(renv)
     renv::restore()
+
+Run all terminal commands below from the repository root, the directory
+containing `RJdCov-project.Rproj`.
 
 # Reproduce the results and figures for simulation and real data analysis
 
@@ -35,7 +39,7 @@ This script covers:
 - Varying reference measure (Figure 4 in the supplement)
 - Varying dimension (Figure 5 in the supplement)
 - Low-dimensional supported distributions (Figure 7 in the supplement)
-- Varying tuning parameter $`c`$ (Figure 8 in the supplement)
+- Varying tuning parameter $c$ (Figure 8 in the supplement)
 
 ## Run the ICA simulation and create figures
 
@@ -62,8 +66,14 @@ results for the finance data.
 
     Rscript run_real_data.R
 
-This produces Figure 3 in the main text and Tables 3, 4 in the
-supplement.
+This runs the finance analysis underlying Tables 3 and 4 in the
+supplement. The combined dependency graph shown in Figure 3 of the main
+text is generated separately from
+`real-data/finance/finance_dependency_graph.tex`. With a LaTeX
+installation containing the `standalone` class and TikZ, compile it from
+the repository root using:
+
+    (cd real-data/finance && pdflatex finance_dependency_graph.tex)
 
 ## Additional simulations
 
@@ -80,9 +90,9 @@ Power analysis on discretized count data (Cauchy and Poisson):
 
 ### High-dimensional simulations with transport dependency (Figure 6 in the supplement)
 
-Varying dimension ($`d = 20`$–$`100`$, $`n = 50`$) under Gaussian
-Toeplitz and Cauchy setups, including comparison with the transport
-dependency (TDep) method:
+Varying dimension ($d = 20$–$100$, $n = 50$) under Gaussian Toeplitz and
+Cauchy setups, including comparison with the transport dependency (TDep)
+method:
 
     Rscript simulation/varying_dim/varying_dim_GT_new.R
     Rscript simulation/varying_dim/varying_dim_H_new.R
@@ -94,16 +104,22 @@ Power analysis using the center-outward reference measure:
     Rscript simulation/varying_reference_measure/simulation_outward_ref.R
     Rscript -e 'source("simulation/varying_reference_measure/varying_ref_plot.R")'
 
-### Gene-triplet analysis (TCGA-SARC; Table 5, Appendix L.1 in the supplement)
+### Gene-triplet analysis (TCGA-SARC; Table 5, Appendix L.2 in the supplement)
 
 Higher-order dependence testing among cytotoxic immune, ECM/stromal, and
-proliferation gene modules using TCGA-SARC RNA-seq data. The raw data
-can be downloaded from GDC using the provided script, or the
-preprocessed gene Z-scores (`TCGA_SARC_gene_zscores.rds`) are included
-in the repository.
+proliferation gene modules using TCGA-SARC RNA-seq data. The
+preprocessed input is included at
+`real-data/gene-triplet/TCGA_SARC_gene_zscores.rds`. To rerun the
+analysis using this bundled input:
 
-    # Step 1 (optional): Download and preprocess TCGA-SARC data
+    Rscript real-data/gene-triplet/02_gene_triplet_test.R
+
+Downloading and preprocessing the raw data from GDC is optional:
+
     Rscript real-data/gene-triplet/01_download_data.R
 
-    # Step 2: Run the combinatorial gene-triplet independence tests
-    Rscript real-data/gene-triplet/02_gene_triplet_test.R
+This optional step requires network access and uses `BiocManager`,
+`TCGAbiolinks`, `SummarizedExperiment`, and `edgeR`, which the download
+script installs as needed. These optional download dependencies are not
+recorded in `renv.lock`; they are not needed when using the bundled
+preprocessed input.
